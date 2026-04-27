@@ -3,37 +3,36 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   Oracle JDeveloper BPEL Designer 
   
-  Created: Sun Apr 26 21:29:22 IST 2026
+  Created: Thu Apr 23 18:01:43 IST 2026
   Author:  LakshmikanthanT
   Type: BPEL 2.0 Process
-  Purpose: One Way BPEL Process
+  Purpose: Synchronous BPEL Process
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 -->
 <process name="BPELProcess"
-               targetNamespace="http://xmlns.oracle.com/SOA/EvenorODDSoap/BPELProcess"
+               targetNamespace="http://xmlns.oracle.com/SOA/EvenorODDRest/BPELProcess"
                xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
-               xmlns:client="http://xmlns.oracle.com/SOA/EvenorODDSoap/BPELProcess"
+               xmlns:client="http://xmlns.oracle.com/SOA/EvenorODDRest/BPELProcess"
                xmlns:ora="http://schemas.oracle.com/xpath/extension"
-               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
                xmlns:ui="http://xmlns.oracle.com/soa/designer"
-               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
-         xmlns:ns1="http://xmlns.oracle.com/SOA/EvenorODDSoap/Rest" xmlns:ns2="http://www.example.org">
-
-  <import ui:processWSDL="true" namespace="http://xmlns.oracle.com/SOA/EvenorODDSoap/BPELProcess" location="../WSDLs/BPELProcess.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
-  <!-- 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      PARTNERLINKS                                                      
-      List of services participating in this BPEL process               
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  --> 
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/SOA/EvenorODDRest/EvenorOdd" xmlns:ns2="http://www.example.org">
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+  <import namespace="http://xmlns.oracle.com/SOA/EvenorODDRest/EvenorOdd" location="../WSDLs/EvenorOdd.wsdl"
+          importType="http://schemas.xmlsoap.org/wsdl/" ui:processWSDL="true"/>
   <partnerLinks>
     <!-- 
       The 'client' role represents the requester of this service. It is 
       used for callback. The location and correlation information associated
       with the client role are automatically set using WS-Addressing.
     -->
-    <partnerLink name="bpelprocess_client" partnerLinkType="client:BPELProcess" myRole="BPELProcessProvider"/>
-    <partnerLink name="Rest" partnerLinkType="ns1:Rest" partnerRole="RestProvider"/>
+    <partnerLink name="EvenorOdd" partnerLinkType="ns1:EvenorOdd" myRole="EvenorOddProvider"/>
   </partnerLinks>
 
   <!-- 
@@ -44,9 +43,10 @@
   -->
   <variables>
     <!-- Reference to the message passed as input during initiation -->
-    <variable name="inputVariable" messageType="client:BPELProcessRequestMessage"/>
-    <variable name="InvokeRest_Rest_InputVariable" messageType="ns1:Rest_inputMessage"/>
-    <variable name="InvokeRest_Rest_OutputVariable" messageType="ns1:Rest_outputMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="receiveInput_Operation1_InputVariable" messageType="ns1:Operation1_inputMessage"/>
+    <variable name="replyOutput_Operation1_OutputVariable" messageType="ns1:Operation1_outputMessage"/>
   </variables>
 
   <!-- 
@@ -59,15 +59,33 @@
   <sequence name="main">
 
     <!-- Receive input from requestor. (Note: This maps to operation defined in BPELProcess.wsdl) -->
-    <receive name="receiveInput" partnerLink="bpelprocess_client" portType="client:BPELProcess" operation="process" variable="inputVariable" createInstance="yes"/>
-    <assign name="Assign1">
-      <copy>
-        <from>$inputVariable.payload/ns2:number</from>
-        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeRest_Rest_InputVariable.request/ns2:number</to>
-      </copy>
-    </assign>
-    <invoke name="InvokeRest" partnerLink="Rest" portType="ns1:Rest_ptt" operation="Rest"
-            inputVariable="InvokeRest_Rest_InputVariable" outputVariable="InvokeRest_Rest_OutputVariable"
-            bpelx:invokeAsDetail="no"/>
+    <receive name="receiveInput" partnerLink="EvenorOdd" portType="ns1:EvenorOdd_ptt" operation="Operation1"
+             variable="receiveInput_Operation1_InputVariable" createInstance="yes"/>
+    <if name="If1">
+      <documentation>
+        <![CDATA[even]]>
+      </documentation>
+      <condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$receiveInput_Operation1_InputVariable.request/ns2:number mod 2 = 0</condition>
+      <assign name="Assign1">
+        <copy>
+          <from>'Even'</from>
+          <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$replyOutput_Operation1_OutputVariable.reply/ns2:result</to>
+        </copy>
+      </assign>
+      <else>
+        <documentation>
+          <![CDATA[else]]>
+        </documentation>
+        <assign name="Assign2">
+          <copy>
+            <from>'Odd'</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$replyOutput_Operation1_OutputVariable.reply/ns2:result</to>
+          </copy>
+        </assign>
+      </else>
+    </if>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="EvenorOdd" portType="ns1:EvenorOdd_ptt" operation="Operation1"
+           variable="replyOutput_Operation1_OutputVariable"/>
   </sequence>
 </process>

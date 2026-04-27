@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions name="BPELProcess"
-             targetNamespace="http://xmlns.oracle.com/SOA/EvenorODDSoap/BPELProcess"
+             targetNamespace="http://xmlns.oracle.com/SOA/EvenorODDRest/BPELProcess"
              xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-             xmlns:client="http://xmlns.oracle.com/SOA/EvenorODDSoap/BPELProcess"
+             xmlns:client="http://xmlns.oracle.com/SOA/EvenorODDRest/BPELProcess"
              xmlns:ns1="http://www.example.org"
+             xmlns:ns2="http://www.example.org"
              xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype">
 
 	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -16,6 +17,9 @@
 		<schema xmlns="http://www.w3.org/2001/XMLSchema">
 			<import namespace="http://www.example.org" schemaLocation="../Schemas/Input.xsd" />
 		</schema>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema">
+			<import namespace="http://www.example.org" schemaLocation="../Schemas/Output.xsd" />
+		</schema>
 	</wsdl:types>
 
 	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -23,7 +27,10 @@
 	part of the port type defintions
 	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->      
 	<wsdl:message name="BPELProcessRequestMessage">
-		<wsdl:part name="payload" element="ns1:checkRequest" />
+		<wsdl:part name="payload" element="ns2:checkRequest" />
+	</wsdl:message>
+	<wsdl:message name="BPELProcessResponseMessage">
+		<wsdl:part name="payload" element="ns2:checkResponse" />
 	</wsdl:message>
 
 	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -35,6 +42,7 @@
 	<wsdl:portType name="BPELProcess">
 		<wsdl:operation name="process">
 			<wsdl:input  message="client:BPELProcessRequestMessage" />
+			<wsdl:output message="client:BPELProcessResponseMessage"/>
 		</wsdl:operation>
 	</wsdl:portType>
 
