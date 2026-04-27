@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<SOAConfigPlan 
+  xmlns:jca="http://platform.integration.oracle/blocks/adapter/fw/metadata"
+  xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+  xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy"
+  xmlns:edl="http://schemas.oracle.com/events/edl"
+  xmlns="http://schemas.oracle.com/soa/configplan">
+
+  <composite name="EvenorODDRest">
+
+    <import>
+      <searchReplace>
+        <search/>
+        <replace/>
+      </searchReplace>
+    </import>
+
+    <service name="EvenorOdd">
+      <binding type="rest"/>
+    </service>
+
+    <property name="auditLevel">
+      <replace>Development</replace>
+    </property>
+
+    <property name="compositeID">
+      <replace>7de90486-3442-4bfb-87bf-39f7d01cee85</replace>
+    </property>
+
+    <property name="productVersion">
+      <replace>12.2.1.4.0.190828</replace>
+    </property>
+
+  </composite>
+
+  <wsdlAndSchema name="WSDLs/EvenorOdd.wsdl|WADLs/EvenorOdd.wadl|wsm-assembly.xml">
+    <searchReplace>
+      <search/>
+      <replace/>
+    </searchReplace>
+  </wsdlAndSchema>
+
+</SOAConfigPlan>
