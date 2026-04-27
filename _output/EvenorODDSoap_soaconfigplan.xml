@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<SOAConfigPlan xmlns:jca="http://platform.integration.oracle/blocks/adapter/fw/metadata" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" xmlns:edl="http://schemas.oracle.com/events/edl" xmlns="http://schemas.oracle.com/soa/configplan">
+  <composite name="EvenorODDSoap">
+    <import>
+      <searchReplace>
+        <search/>
+        <replace/>
+      </searchReplace>
+    </import>
+    <service name="bpelprocess_client_ep">
+      <binding type="ws"/>
+    </service>
+    <property name="auditLevel">
+      <replace>Development</replace>
+    </property>
+    <property name="compositeID">
+      <replace>654f74f8-cbca-48f4-a325-7e06d5078cc2</replace>
+    </property>
+    <property name="productVersion">
+      <replace>12.2.1.4.0.190828</replace>
+    </property>
+    <reference name="Rest">
+      <binding type="rest">
+        <attribute name="location">
+          <replace>https://ITCRLPT757:7102/soa-infra/resources/default/EvenorODDRest!1.0/EvenorOdd</replace>
+        </attribute>
+      </binding>
+    </reference>
+  </composite>
+  <wsdlAndSchema name="WSDLs/BPELProcess.wsdl|WSDLs/Rest.wsdl|WADLs/Rest.wadl|wsm-assembly.xml">
+    <searchReplace>
+      <search/>
+      <replace/>
+    </searchReplace>
+  </wsdlAndSchema>
+</SOAConfigPlan>
