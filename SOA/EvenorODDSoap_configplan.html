@@ -1,0 +1,53 @@
+
+<pre style="background:#1e1e1e;color:#d4d4d4;padding:20px;border-radius:8px;overflow:auto;font-family:monospace;font-size:13px;line-height:1.5">
+<code><?xml version='1.0' encoding='UTF-8'?>
+&lt;SOAConfigPlan 
+  xmlns:jca="http://platform.integration.oracle/blocks/adapter/fw/metadata"
+  xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+  xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy"
+  xmlns:edl="http://schemas.oracle.com/events/edl"
+  xmlns="http://schemas.oracle.com/soa/configplan"&gt;
+
+  &lt;composite name="EvenorODDSoap"&gt;
+
+    &lt;import&gt;
+      &lt;searchReplace&gt;
+        &lt;search/&gt;
+        &lt;replace/&gt;
+      &lt;/searchReplace&gt;
+    &lt;/import&gt;
+
+    &lt;service name="bpelprocess_client_ep"&gt;
+      &lt;binding type="ws"/&gt;
+    &lt;/service&gt;
+
+    &lt;property name="auditLevel"&gt;
+      &lt;replace&gt;Development&lt;/replace&gt;
+    &lt;/property&gt;
+
+    &lt;property name="compositeID"&gt;
+      &lt;replace&gt;654f74f8-cbca-48f4-a325-7e06d5078cc2&lt;/replace&gt;
+    &lt;/property&gt;
+
+    &lt;property name="productVersion"&gt;
+      &lt;replace&gt;12.2.1.4.0.190828&lt;/replace&gt;
+    &lt;/property&gt;
+
+    &lt;reference name="Rest"&gt;
+      &lt;binding type="rest"&gt;
+        &lt;attribute name="location"&gt;
+          &lt;replace&gt;https://ITCRLPT757:7102/soa-infra/resources/default/EvenorODDRest!1.0/EvenorOdd&lt;/replace&gt;
+        &lt;/attribute&gt;
+      &lt;/binding&gt;
+    &lt;/reference&gt;
+
+  &lt;/composite&gt;
+
+  &lt;wsdlAndSchema name="WSDLs/BPELProcess.wsdl|WSDLs/Rest.wsdl|WADLs/Rest.wadl|wsm-assembly.xml"&gt;
+    &lt;searchReplace&gt;
+      &lt;search/&gt;
+      &lt;replace/&gt;
+    &lt;/searchReplace&gt;
+  &lt;/wsdlAndSchema&gt;
+
+&lt;/SOAConfigPlan&gt;</code></pre>

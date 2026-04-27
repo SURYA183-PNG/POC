@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<checkRequest xmlns="http://www.example.org">
+   <number>1</number>
+</checkRequest>

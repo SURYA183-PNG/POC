@@ -1,0 +1,4 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<ns0:checkRequest xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:client="http://xmlns.oracle.com/SOA/EvenorODDSoap/EvenorOdd" xmlns:ns0="http://www.example.org">
+   <ns0:number>1</ns0:number>
+</ns0:checkRequest>
