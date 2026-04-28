@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<SOAConfigPlan xmlns:jca="http://platform.integration.oracle/blocks/adapter/fw/metadata" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" xmlns:edl="http://schemas.oracle.com/events/edl" xmlns="http://schemas.oracle.com/soa/configplan">
+   <composite name="Payments_LegacybillInfo">
+      <import>
+         <searchReplace>
+            <search/>
+            <replace/>
+         </searchReplace>
+      </import>
+      <service name="LegacygetServiceConnection">
+         <binding type="rest"/>
+      </service>
+      <service name="LegacygetBillInfo">
+         <binding type="rest"/>
+      </service>
+      <property name="auditLevel">
+         <replace>Development</replace>
+      </property>
+      <property name="compositeID">
+         <replace>eb548d15-f238-441d-86f9-a78b8cae611f</replace>
+      </property>
+      <property name="productVersion">
+         <replace>12.2.1.4.0.190828</replace>
+      </property>
+      <reference name="Payments_getBalance">
+         <binding type="rest">
+            <attribute name="location">
+               <replace>https://sitsoa-bcrm.km.qa/soa-infra/resources/BCRM/Payments_getBalance/getBalanceService</replace>
+            </attribute>
+         </binding>
+      </reference>
+   </composite>
+   <wsdlAndSchema name="Schemas/getBalance.xsd|Schemas/getBillInfo_schema.xsd|Schemas/getServiceConnectionReq.xsd|Schemas/getServiceConnectionRes.xsd|WSDLs/LegacygetBillInfo.wsdl|WSDLs/LegacygetServiceConnection.wsdl|WSDLs/Payments_getBalance.wsdl|wsm-assembly.xml">
+      <searchReplace>
+         <search/>
+         <replace/>
+      </searchReplace>
+   </wsdlAndSchema>
+</SOAConfigPlan>
