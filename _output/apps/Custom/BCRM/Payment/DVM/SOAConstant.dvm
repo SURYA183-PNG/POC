@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dvm name="SOAConstant" xmlns="http://xmlns.oracle.com/dvm">
+<description/>
+<columns>
+<column name="SOA_KEY"/>
+<column name="SOA_VALUE"/>
+</columns>
+<rows>
+<row>
+<cell>QID</cell>
+<cell>QID</cell>
+</row>
+<row markdefault="false">
+<cell>CID</cell>
+<cell>ESTID</cell>
+</row>
+<row markdefault="false">
+<cell>Currency</cell>
+<cell>QR</cell>
+</row>
+<row markdefault="false">
+<cell>tenderTypeCodeLegacy</cell>
+<cell>BNKP</cell>
+</row>
+<row markdefault="false">
+<cell>creditCardApprovalCode</cell>
+<cell>TEST1123</cell>
+</row>
+</rows>
+</dvm>
