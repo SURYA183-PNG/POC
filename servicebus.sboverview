@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<composite xmlns="http://xmlns.oracle.com/sca/1.0" xmlns:ui="http://xmlns.oracle.com/soa/designer/" name="C2M0048_Payments_LegacybillInfo" label="C2M0048_Payments_LegacybillInfo" ui:displayName="C2M0048_Payments_LegacybillInfo"/>

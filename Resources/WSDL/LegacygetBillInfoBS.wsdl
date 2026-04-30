@@ -1,0 +1,41 @@
+<wsdl:definitions name="LegacygetBillInfoBS" targetNamespace="http://xmlns.oracle.com/KahramaaApplication/Payments_LegacybillInfo_Wrapper/LegacygetBillInfoBS" xmlns:tns="http://xmlns.oracle.com/KahramaaApplication/Payments_LegacybillInfo_Wrapper/LegacygetBillInfoBS" xmlns:inp1="https://www.km.qa/soa/bcrm/legacy_getBillinfo/schema/getBillinfo_schema" xmlns:inp2="https://www.km.qa/C2MFault" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+    <plnk:partnerLinkType name="LegacygetBillInfoBS">
+        <plnk:role name="LegacygetBillInfoBSProvider" portType="tns:LegacygetBillInfoBS_ptt"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="https://www.km.qa/soa/bcrm/legacy_getBillinfo/schema/getBillinfo_schema" schemaLocation="../Schema/getBillInfo_schema.xsd"/>
+        </xsd:schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="https://www.km.qa/C2MFault" schemaLocation="../../../KM_OSB_MDS_Repo/Schema/C2MfaultSchema.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="getBillinfo_inputMessage">
+        <wsdl:part name="request" element="inp1:LegacygetBillinfoRequest"/>
+    </wsdl:message>
+    <wsdl:message name="getBillinfo_outputMessage">
+        <wsdl:part name="reply" element="inp1:LegacygetBillinfoResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getBillinfo_fault1Message">
+        <wsdl:part name="fault_fault1" element="inp2:errorMessage"/>
+    </wsdl:message>
+    <wsdl:portType name="LegacygetBillInfoBS_ptt">
+        <wsdl:operation name="getBillinfo">
+            <wsdl:input message="tns:getBillinfo_inputMessage"/>
+            <wsdl:output message="tns:getBillinfo_outputMessage"/>
+            <wsdl:fault name="fault1" message="tns:getBillinfo_fault1Message"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="LegacygetBillInfoBS_ptt-binding" type="tns:LegacygetBillInfoBS_ptt">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="getBillinfo">
+            <soap:operation soapAction="getBillinfo"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+</wsdl:definitions>

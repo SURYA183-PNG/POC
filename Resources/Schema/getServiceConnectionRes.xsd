@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" nxsd:jsonTopLevelArray="true" xmlns="https://www.km.qa/soa/bcrm/legacy_getBillinfo/schema/getServiceConnectionRes" targetNamespace="https://www.km.qa/soa/bcrm/legacy_getBillinfo/schema/getServiceConnectionRes" elementFormDefault="qualified" xmlns:nxsd="http://xmlns.oracle.com/pcbpel/nxsd" nxsd:version="JSON" nxsd:encoding="UTF-8">
+   <xsd:element name="LegacygetServiceConnectionResponse">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element name="LegacygetServiceConnection" maxOccurs="unbounded">
+               <xsd:complexType>
+                  <xsd:sequence>
+                     <xsd:element name="documentNumber" type="xsd:string"/>
+                     <xsd:element name="customerNumber" type="xsd:string"/>
+                     <xsd:element name="registerType" type="xsd:string"/>
+                     <xsd:element name="amount" type="xsd:decimal"/>
+                     <xsd:element name="minAmount" type="xsd:decimal"/>
+                     <xsd:element name="kmRefrenceNumber" type="xsd:string"/>
+                     <xsd:element name="errorCode" type="xsd:string"/>
+                     <xsd:element name="errorMessage" type="xsd:string"/>
+                  </xsd:sequence>
+               </xsd:complexType>
+            </xsd:element>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:annotation xmlns="">
+      <xsd:appinfo>NXSDSAMPLE=</xsd:appinfo>
+      <xsd:appinfo>USEHEADER=false</xsd:appinfo>
+   </xsd:annotation>
+</xsd:schema>

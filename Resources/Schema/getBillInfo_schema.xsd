@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" nxsd:jsonTopLevelArray="true" xmlns:nxsd="http://xmlns.oracle.com/pcbpel/nxsd" xmlns:tns="https://www.km.qa/soa/bcrm/legacy_getBillinfo/schema/getBillinfo_schema" targetNamespace="https://www.km.qa/soa/bcrm/legacy_getBillinfo/schema/getBillinfo_schema" elementFormDefault="qualified" attributeFormDefault="unqualified" nxsd:encoding="UTF-8">
+   <xsd:element name="LegacygetBillinfoRequest">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element name="QID" type="xsd:string"/>
+            <xsd:element name="parentNumber" type="xsd:string"/>
+            <xsd:element name="customerNumber" type="xsd:string"/>
+            <xsd:element name="bnKey" type="xsd:string"/>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="LegacygetBillinfoResponse">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element name="LegacygetBillinfo" maxOccurs="unbounded">
+               <xsd:complexType>
+                  <xsd:sequence>
+                     <xsd:element name="parentNumber" type="xsd:string"/>
+                     <xsd:element name="customerNumber" type="xsd:string"/>
+                     <xsd:element name="registerType" type="xsd:string"/>
+                     <xsd:element name="amount" type="xsd:decimal"/>
+                     <xsd:element name="minAmount" type="xsd:decimal"/>
+                     <xsd:element name="kmRefrenceNumber" type="xsd:string"/>
+                     <xsd:element name="errorCode" type="xsd:string"/>
+                     <xsd:element name="errorMessage" type="xsd:string"/>
+                  </xsd:sequence>
+               </xsd:complexType>
+            </xsd:element>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:annotation>
+      <xsd:appinfo>NXSDSAMPLE=</xsd:appinfo>
+      <xsd:appinfo>USEHEADER=false</xsd:appinfo>
+   </xsd:annotation>
+</xsd:schema>

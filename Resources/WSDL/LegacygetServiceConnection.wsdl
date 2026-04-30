@@ -1,0 +1,44 @@
+<wsdl:definitions name="LegacygetServiceConnection" targetNamespace="http://xmlns.oracle.com/KahramaaApplication/Payments_LegacybillInfo_Wrapper/LegacygetServiceConnection" xmlns:tns="http://xmlns.oracle.com/KahramaaApplication/Payments_LegacybillInfo_Wrapper/LegacygetServiceConnection" xmlns:inp1="https://www.km.qa/soa/bcrm/legacy_getBillinfo/schema/getServiceConnectionReq" xmlns:inp2="https://www.km.qa/soa/bcrm/legacy_getBillinfo/schema/getServiceConnectionRes" xmlns:inp3="https://www.km.qa/C2MFault" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+    <plnk:partnerLinkType name="LegacygetServiceConnection">
+        <plnk:role name="LegacygetServiceConnectionProvider" portType="tns:LegacygetServiceConnection_ptt"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="https://www.km.qa/soa/bcrm/legacy_getBillinfo/schema/getServiceConnectionReq" schemaLocation="../Schema/getServiceConnectionReq.xsd"/>
+        </xsd:schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="https://www.km.qa/soa/bcrm/legacy_getBillinfo/schema/getServiceConnectionRes" schemaLocation="../Schema/getServiceConnectionRes.xsd"/>
+        </xsd:schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="https://www.km.qa/C2MFault" schemaLocation="../../../KM_OSB_MDS_Repo/Schema/C2MfaultSchema.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="getServiceConnection_inputMessage">
+        <wsdl:part name="request" element="inp1:LegacygetServiceConnectionRequest"/>
+    </wsdl:message>
+    <wsdl:message name="getServiceConnection_outputMessage">
+        <wsdl:part name="reply" element="inp2:LegacygetServiceConnectionResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getServiceConnection_fault1Message">
+        <wsdl:part name="fault_fault1" element="inp3:errorMessage"/>
+    </wsdl:message>
+    <wsdl:portType name="LegacygetServiceConnection_ptt">
+        <wsdl:operation name="getServiceConnection">
+            <wsdl:input message="tns:getServiceConnection_inputMessage"/>
+            <wsdl:output message="tns:getServiceConnection_outputMessage"/>
+            <wsdl:fault name="fault1" message="tns:getServiceConnection_fault1Message"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="LegacygetServiceConnection_ptt-binding" type="tns:LegacygetServiceConnection_ptt">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="getServiceConnection">
+            <soap:operation soapAction="getServiceConnection"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+</wsdl:definitions>

@@ -1,0 +1,32 @@
+<application xmlns:soa="http://www.oracle.com/soa/rest" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tns="https://www.km.qa/soa/bcrm/legacy_getBillinfo/schema/getServiceConnectionReq" xmlns="http://wadl.dev.java.net/2009/02">
+   <doc title="LegacygetServiceConnectionBS">RestReference</doc>
+   <grammars>
+      <xsd:schema>
+            <xsd:import namespace="https://www.km.qa/soa/bcrm/legacy_getBillinfo/schema/getServiceConnectionReq" schemaLocation="../Schema/getServiceConnectionReq.xsd"/>
+        </xsd:schema>
+      <xsd:schema>
+            <xsd:import namespace="https://www.km.qa/soa/bcrm/legacy_getBillinfo/schema/getServiceConnectionRes" schemaLocation="../Schema/getServiceConnectionRes.xsd"/>
+        </xsd:schema>
+      <xsd:schema>
+            <xsd:import namespace="https://www.km.qa/C2MFault" schemaLocation="../../../KM_OSB_MDS_Repo/Schema/C2MfaultSchema.xsd"/>
+        </xsd:schema>
+   </grammars>
+   <resources>
+      <resource path="/BCRM/Payments_LegacybillInfo/LegacygetServiceConnection/getServiceConnection">
+         <method name="GET" soa:wsdlOperation="getServiceConnection">
+            <request soa:paramElement="pns:LegacygetServiceConnectionRequest" xmlns:pns="https://www.km.qa/soa/bcrm/legacy_getBillinfo/schema/getServiceConnectionReq">
+               <param name="QID" style="query" soa:expression="$msg.request/tns:QID" type="xsd:string"/>
+               <param name="customerNumber" style="query" soa:expression="$msg.request/tns:customerNumber" type="xsd:string"/>
+               <param name="documentNumber" style="query" soa:expression="$msg.request/tns:documentNumber" type="xsd:string"/>
+               <param name="bnKey" style="query" soa:expression="$msg.request/tns:bnKey" type="xsd:string"/>
+            </request>
+            <response status="200">
+               <representation mediaType="application/json" element="cns:LegacygetServiceConnectionResponse" xmlns:cns="https://www.km.qa/soa/bcrm/legacy_getBillinfo/schema/getServiceConnectionRes"/>
+            </response>
+            <response status="400" soa:wsdlFaultName="fault1">
+               <representation mediaType="application/json" element="cns:errorMessage" xmlns:cns="https://www.km.qa/C2MFault"/>
+            </response>
+         </method>
+      </resource>
+   </resources>
+</application>

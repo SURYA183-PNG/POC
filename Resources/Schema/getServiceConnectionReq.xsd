@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:nxsd="http://xmlns.oracle.com/pcbpel/nxsd" xmlns:tns="https://www.km.qa/soa/bcrm/legacy_getBillinfo/schema/getServiceConnectionReq" targetNamespace="https://www.km.qa/soa/bcrm/legacy_getBillinfo/schema/getServiceConnectionReq" elementFormDefault="qualified" attributeFormDefault="unqualified" nxsd:encoding="UTF-8">
+   <xsd:element name="LegacygetServiceConnectionRequest">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element name="QID" type="xsd:string"/>
+            <xsd:element name="customerNumber" type="xsd:string"/>
+            <xsd:element name="documentNumber" type="xsd:string"/>
+            <xsd:element name="bnKey" type="xsd:string"/>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:annotation>
+      <xsd:appinfo>NXSDSAMPLE=</xsd:appinfo>
+      <xsd:appinfo>USEHEADER=false</xsd:appinfo>
+   </xsd:annotation>
+</xsd:schema>

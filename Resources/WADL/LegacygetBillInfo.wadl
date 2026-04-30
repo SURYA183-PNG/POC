@@ -1,0 +1,23 @@
+<application xmlns:soa="http://www.oracle.com/soa/rest" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tns="https://www.km.qa/soa/bcrm/legacy_getBillinfo/schema/getBillinfo_schema" xmlns="http://wadl.dev.java.net/2009/02">
+   <doc title="LegacygetBillInfo">RestService</doc>
+   <grammars>
+      <xsd:schema>
+            <xsd:import namespace="https://www.km.qa/soa/bcrm/legacy_getBillinfo/schema/getBillinfo_schema" schemaLocation="../Schema/getBillInfo_schema.xsd"/>
+        </xsd:schema>
+   </grammars>
+   <resources>
+      <resource path="/{QID}/{parentNumber}/{customerNumber}/{bnKey}">
+         <method name="GET" soa:wsdlOperation="getBillinfo">
+            <request soa:paramElement="pns:LegacygetBillinfoRequest" xmlns:pns="https://www.km.qa/soa/bcrm/legacy_getBillinfo/schema/getBillinfo_schema">
+               <param name="QID" style="template" soa:expression="$msg.request/tns:QID" type="xsd:string"/>
+               <param name="parentNumber" style="template" soa:expression="$msg.request/tns:parentNumber" type="xsd:string"/>
+               <param name="customerNumber" style="template" soa:expression="$msg.request/tns:customerNumber" type="xsd:string"/>
+               <param name="bnKey" style="template" soa:expression="$msg.request/tns:bnKey" type="xsd:string"/>
+            </request>
+            <response status="200">
+               <representation mediaType="application/json" element="cns:LegacygetBillinfoResponse" xmlns:cns="https://www.km.qa/soa/bcrm/legacy_getBillinfo/schema/getBillinfo_schema"/>
+            </response>
+         </method>
+      </resource>
+   </resources>
+</application>

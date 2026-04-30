@@ -1,0 +1,642 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:pipelineEntry xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:coreEntry>
+        <con:binding type="SOAP" isSoap12="false" xsi:type="con:SoapBindingType">
+            <con:wsdl ref="C2M0048_Payments_LegacybillInfo/Resources/WSDL/LegacygetServiceConnection"/>
+            <con:binding>
+                <con:name>LegacygetServiceConnection_ptt-binding</con:name>
+                <con:namespace>http://xmlns.oracle.com/KahramaaApplication/Payments_LegacybillInfo_Wrapper/LegacygetServiceConnection</con:namespace>
+            </con:binding>
+        </con:binding>
+        <con:xqConfiguration>
+            <con:snippetVersion>1.0</con:snippetVersion>
+        </con:xqConfiguration>
+    </con:coreEntry>
+    <con:router errorHandler="error-N53e1980e.N271b888c.0.16eb10d1665.N78aa">
+        <con:pipeline name="response-N53e1980e.N271b888c.0.16eb10d1665.N7a68" type="response">
+            <con:stage name="Stage_Response" errorHandler="error-N53e19823.N1c49a357.0.17080461683.N7db9">
+                <con:context xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config"/>
+                <con:actions>
+                    <con3:assign varName="varResponse" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N798d</con1:id>
+                        <con3:expr>
+                            <con1:xqueryText>$body</con1:xqueryText>
+                        </con3:expr>
+                    </con3:assign>
+                    <con3:insert varName="varLogPayload" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N7a8c</con1:id>
+                        <con3:location>
+                            <con1:xpathText>./*:Request_Payload</con1:xpathText>
+                        </con3:location>
+                        <con3:where>after</con3:where>
+                        <con3:expr>
+                            <con1:xqueryText><![CDATA[<Response_Stage>
+    <Response_Payload>{$varResponse}</Response_Payload>
+    <Status>S</Status>
+    <Error_Code></Error_Code>
+    <Error_Msg></Error_Msg>
+    <End_DateTime>{fn:current-dateTime()}</End_DateTime>
+    <Total_Execution_Time></Total_Execution_Time>
+  </Response_Stage>]]></con1:xqueryText>
+                        </con3:expr>
+                    </con3:insert>
+                    <con5:route xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N79c7</con1:id>
+                        <con5:service ref="COMMON_UTIL_FRAMEWORK/BusinessServices/LoggingQueueBS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con5:outboundTransform>
+                            <con3:routing-options>
+                                <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N7495</con1:id>
+                                <con3:uriExpr>
+                                    <con1:xqueryText>dvm:lookup('COMMON_UTIL_FRAMEWORK/Resources/DVM/CommonURLs.dvm','ServiceName','JMSLogging','URL','')</con1:xqueryText>
+                                </con3:uriExpr>
+                                <con3:mode>request</con3:mode>
+                                <con3:qualityOfService>exactly-once</con3:qualityOfService>
+                                <con3:retryInterval>1</con3:retryInterval>
+                                <con3:retryCount>1</con3:retryCount>
+                                <con3:priority>
+                                    <con1:xqueryText>1</con1:xqueryText>
+                                </con3:priority>
+                            </con3:routing-options>
+                            <con3:replace varName="body" contents-only="true">
+                                <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N79c5</con1:id>
+                                <con3:location>
+                                    <con1:xpathText>.</con1:xpathText>
+                                </con3:location>
+                                <con3:expr>
+                                    <con1:xqueryText>$varLogPayload</con1:xqueryText>
+                                </con3:expr>
+                            </con3:replace>
+                        </con5:outboundTransform>
+                    </con5:route>
+                </con:actions>
+            </con:stage>
+            <con:stage name="Stage_Response2">
+                <con:context xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config"/>
+                <con:actions>
+                    <con3:replace varName="body" contents-only="false" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N798a</con1:id>
+                        <con3:location>
+                            <con1:xpathText>.</con1:xpathText>
+                        </con3:location>
+                        <con3:expr>
+                            <con1:xqueryText>$varResponse</con1:xqueryText>
+                        </con3:expr>
+                    </con3:replace>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline name="error-N53e1980e.N271b888c.0.16eb10d1665.N78aa" type="error">
+            <con:stage name="Stage_BusinessLogic_ErrorHandler">
+                <con:context xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                    <con1:userNsDecl prefix="com" namespace="http://www.km.qa/CommonUtilFrameWork"/>
+                    <con2:variable name="KM_Service_Log" path="$KM_Service_Log" asChild="false">
+                        <con2:schema ref="COMMON_UTIL_FRAMEWORK/Resources/XSD/commonLoggingAndErrorHandler" element="KM_Service_Log"/>
+                    </con2:variable>
+                </con:context>
+                <con:actions>
+                    <con3:assign varName="varFault" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id>_ActionId-N53e1980e.5671b4af.0.16ef8fb8b49.N7ca3</con1:id>
+                        <con3:expr>
+                            <con1:xqueryText>$body</con1:xqueryText>
+                        </con3:expr>
+                    </con3:assign>
+                    <con3:insert varName="varLogPayload" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id>_ActionId-N53e19823.70966582.0.170a4b30d2c.N7f93</con1:id>
+                        <con3:location>
+                            <con1:xpathText>./*:Component_Type</con1:xpathText>
+                        </con3:location>
+                        <con3:where>after</con3:where>
+                        <con3:expr>
+                            <con1:xqueryText>&lt;Service_Hdr_Unique_Id>{fn:data(fn-bea:execute-sql('jdbc/KMLoggingDS',xs:QName('Element'),'select KM_SERVICE_HEADER_LOG_SEQ.nextval from dual'))}&lt;/Service_Hdr_Unique_Id></con1:xqueryText>
+                        </con3:expr>
+                    </con3:insert>
+                    <con5:route xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N781c</con1:id>
+                        <con5:service ref="COMMON_UTIL_FRAMEWORK/BusinessServices/EmailBusinessService" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con5:operation>EmailRequest</con5:operation>
+                        <con5:outboundTransform>
+                            <con2:routing-options xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con1="http://www.bea.com/wli/sb/stages/publish/config">
+                                <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N781b</con6:id>
+                                <con2:mode>request</con2:mode>
+                                <con2:qualityOfService>exactly-once</con2:qualityOfService>
+                                <con2:retryInterval>1</con2:retryInterval>
+                                <con2:retryCount>1</con2:retryCount>
+                                <con2:priority>
+                                    <con3:xqueryText xmlns:con3="http://www.bea.com/wli/sb/stages/config">1</con3:xqueryText>
+                                </con2:priority>
+                            </con2:routing-options>
+                            <con3:replace varName="body" contents-only="true">
+                                <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N781a</con1:id>
+                                <con3:location>
+                                    <con1:xpathText>.</con1:xpathText>
+                                </con3:location>
+                                <con3:expr>
+                                    <con1:xqueryText><![CDATA[<ema:EmailRequest xmlns:ema="http://www.km.qa/email">
+    <ema:Subject>{concat('OSB:Alert | Critical Failure in ',$varLogPayload//*:Interface_Name/text())}</ema:Subject>
+    <ema:From>{dvm:lookup('COMMON_UTIL_FRAMEWORK/Resources/DVM/CommonEmailConfig.dvm','Application','From','Email','')}</ema:From>
+    <ema:To>{dvm:lookup('COMMON_UTIL_FRAMEWORK/Resources/DVM/CommonEmailConfig.dvm','Application',substring($varLogPayload//*:Interface_Name/text(),1,4),'Email','')}</ema:To>
+    <ema:Cc></ema:Cc>
+    <ema:Bcc></ema:Bcc>
+    <ema:SendEmailAsAttachment></ema:SendEmailAsAttachment>
+    <ema:Timestamp>{fn:current-dateTime()}</ema:Timestamp>
+    <ema:TrackingID>{$varLogPayload//*:Service_Hdr_Unique_Id/text()}</ema:TrackingID>
+    <ema:ModuleName>{$varLogPayload//*:Module_Name/text()}</ema:ModuleName>
+    <ema:SourceSystem>{$varLogPayload//*:Source_System/text()}</ema:SourceSystem>
+    <ema:TargetSystem>{$varLogPayload//*:Target_System/text()}</ema:TargetSystem>
+    <ema:ServiceName>{$varLogPayload//*:Interface_Name/text()}</ema:ServiceName>
+    <ema:Payload>{$varIntialRequest}</ema:Payload>
+    {
+      if($varFault//*:faultcode !='')then
+        <ema:FaultName>{$varFault//*:faultcode}</ema:FaultName>
+      else(<ema:FaultName>{$fault/ctx:errorCode/text()}</ema:FaultName>)
+    }
+    {
+      if($varFault//*:faultcode !='')then
+        <ema:FaultDesc>{fn:substring($varFault,1,1500)}</ema:FaultDesc>
+      else(<ema:FaultDesc>{$fault/*:reason/text()}</ema:FaultDesc>)
+    }
+    <ema:Status>Error</ema:Status>
+</ema:EmailRequest>]]></con1:xqueryText>
+                                </con3:expr>
+                            </con3:replace>
+                        </con5:outboundTransform>
+                    </con5:route>
+                    <con3:insert varName="varLogPayload" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N7819</con1:id>
+                        <con3:location>
+                            <con1:xpathText>./*:Request_Payload</con1:xpathText>
+                        </con3:location>
+                        <con3:where>after</con3:where>
+                        <con3:expr>
+                            <con1:xqueryText><![CDATA[<Response_Stage>
+    <Response_Payload></Response_Payload>
+    <Status>E</Status>
+    {
+      if($varFault//*:faultcode !='')then
+        <Error_Code>{$varFault//*:faultcode}</Error_Code>
+      else(<Error_Code>{$fault/ctx:errorCode/text()}</Error_Code>)
+    }
+    {
+      if($varFault//*:faultcode !='')then
+        <Error_Msg>{fn:substring($varFault,1,1500)}</Error_Msg>
+      else(<Error_Msg>{$fault/*:reason/text()}</Error_Msg>)
+    }
+    <End_DateTime>{fn:current-dateTime()}</End_DateTime>
+    <Total_Execution_Time></Total_Execution_Time>
+  </Response_Stage>]]></con1:xqueryText>
+                        </con3:expr>
+                    </con3:insert>
+                    <con5:route xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N7818</con1:id>
+                        <con5:service ref="COMMON_UTIL_FRAMEWORK/BusinessServices/LoggingQueueBS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con5:outboundTransform>
+                            <con3:routing-options>
+                                <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N7817</con1:id>
+                                <con3:uriExpr>
+                                    <con1:xqueryText>dvm:lookup('COMMON_UTIL_FRAMEWORK/Resources/DVM/CommonURLs.dvm','ServiceName','JMSLogging','URL','')</con1:xqueryText>
+                                </con3:uriExpr>
+                                <con3:mode>request</con3:mode>
+                                <con3:qualityOfService>exactly-once</con3:qualityOfService>
+                                <con3:retryInterval>1</con3:retryInterval>
+                                <con3:retryCount>1</con3:retryCount>
+                                <con3:priority>
+                                    <con1:xqueryText>1</con1:xqueryText>
+                                </con3:priority>
+                            </con3:routing-options>
+                            <con3:replace varName="body" contents-only="true">
+                                <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N7816</con1:id>
+                                <con3:location>
+                                    <con1:xpathText>.</con1:xpathText>
+                                </con3:location>
+                                <con3:expr>
+                                    <con1:xqueryText>$varLogPayload</con1:xqueryText>
+                                </con3:expr>
+                            </con3:replace>
+                        </con5:outboundTransform>
+                    </con5:route>
+                    <con3:ifThenElse xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id>_ActionId-N53e1980e.5671b4af.0.16ef8fb8b49.N7c06</con1:id>
+                        <con3:case id="_BranchId-N53e1980e.5671b4af.0.16ef8fb8b49.N7c05">
+                            <con3:condition>
+                                <con1:xqueryText>$fault/ctx:errorCode/text() = "OSB-380002"</con1:xqueryText>
+                            </con3:condition>
+                            <con3:actions>
+                                <con3:delete varName="header">
+                                    <con1:id>_ActionId-N53e1980e.5671b4af.0.16ef8fb8b49.N7ac4</con1:id>
+                                    <con3:location>
+                                        <con1:xpathText>.</con1:xpathText>
+                                    </con3:location>
+                                </con3:delete>
+                                <con3:replace varName="body" contents-only="true">
+                                    <con1:id>_ActionId-N53e1980e.5671b4af.0.16ef8fb8b49.N7ac7</con1:id>
+                                    <con3:location>
+                                        <con1:xpathText>.</con1:xpathText>
+                                    </con3:location>
+                                    <con3:expr>
+                                        <con1:xqueryText><![CDATA[<ns0:Fault xmlns:ns0="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://www.w3.org/2003/05/soap-envelope">
+          <faultcode>{$fault/ctx:errorCode/text()}</faultcode>
+         <faultstring>{$fault/ctx:reason/text()}</faultstring>
+         
+      </ns0:Fault>]]></con1:xqueryText>
+                                    </con3:expr>
+                                </con3:replace>
+                            </con3:actions>
+                        </con3:case>
+                        <con3:default>
+                            <con3:replace varName="body" contents-only="false">
+                                <con1:id>_ActionId-N53e1980e.64e4a6f3.0.16ec099db21.N7a21</con1:id>
+                                <con3:location>
+                                    <con1:xpathText>.</con1:xpathText>
+                                </con3:location>
+                                <con3:expr>
+                                    <con1:xqueryText>$varFault</con1:xqueryText>
+                                </con3:expr>
+                            </con3:replace>
+                        </con3:default>
+                    </con3:ifThenElse>
+                    <con1:reply isError="true" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id>_ActionId-N53e1980e.64e4a6f3.0.16ec099db21.N79eb</con1:id>
+                    </con1:reply>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline name="error-N53e19823.N1c49a357.0.17080461683.N7db9" type="error">
+            <con:stage name="ResumeStage">
+                <con:context xmlns:con1="http://www.bea.com/wli/sb/stages/config"/>
+                <con:actions>
+                    <con1:resume xmlns:con1="http://www.bea.com/wli/sb/stages/config">
+                        <con1:id>_ActionId-N53e19823.N1c49a357.0.17080461683.N7db5</con1:id>
+                    </con1:resume>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline name="request-N53e1980e.N271b888c.0.16eb10d1665.N7ab5" type="request">
+            <con:stage name="Stage_InitialValues">
+                <con:context xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                    <con1:userNsDecl prefix="com" namespace="https://Km.qa/CommonLoggingAndErrorHandler"/>
+                    <con2:variable name="KM_Service_Log" path="$KM_Service_Log" asChild="false">
+                        <con2:schema ref="COMMON_UTIL_FRAMEWORK/Resources/XSD/commonLoggingAndErrorHandler" element="KM_Service_Log"/>
+                    </con2:variable>
+                </con:context>
+                <con:actions>
+                    <con1:assign varName="varSourceSystem" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-N3f57ffdf.N79a98251.0.1989f6a4897.N7e8d</con2:id>
+                        <con1:expr>
+                            <con2:xqueryText xmlns:con2="http://www.bea.com/wli/sb/stages/config">$inbound/ctx:security/ctx:transportClient/ctx:username/text()</con2:xqueryText>
+                        </con1:expr>
+                    </con1:assign>
+                    <con1:assign varName="varServiceName" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-N3f57ffdf.N79a98251.0.1989f6a4897.N7e84</con2:id>
+                        <con1:expr>
+                            <con2:xqueryText xmlns:con2="http://www.bea.com/wli/sb/stages/config">'C2M0048_Payments_LegacybillInfo'</con2:xqueryText>
+                        </con1:expr>
+                    </con1:assign>
+                    <con3:assign varName="varIp" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id>_ActionId-N53e19823.N16ead09d.0.16f6554f0d2.N7506</con1:id>
+                        <con3:expr>
+                            <con1:xqueryText>concat($inbound//*:user-header[@name='X-Forwarded-For']/@value,'|',$inbound//*:client-address/text())</con1:xqueryText>
+                        </con3:expr>
+                    </con3:assign>
+                    <con3:assign varName="varLogPayload" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N7ab2</con1:id>
+                        <con3:expr>
+                            <con1:xqueryText><![CDATA[<KM_Service_Log xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://www.km.qa/CommonUtilFrameWork Resources/XSD/commonLoggingAndErrorHandler.xsd"
+                xmlns="http://www.km.qa/CommonUtilFrameWork">
+  <Start_DateTime>{fn:current-dateTime()}</Start_DateTime>
+  <Component_Type>OSB</Component_Type>
+  {
+ if($varSourceSystem != '') then
+    <Source_System>{$varSourceSystem}</Source_System>
+    else( <Source_System>{dvm:lookup('COMMON_UTIL_FRAMEWORK/Resources/DVM/commonRequestDetails.dvm','serviceName',$varServiceName,'sourceSystem','')}</Source_System>)
+  }
+  <Target_System>{dvm:lookup('COMMON_UTIL_FRAMEWORK/Resources/DVM/commonRequestDetails.dvm','serviceName',$varServiceName,'targetSystem','')}</Target_System>
+  <Source_Unique_Req_Id>{$varIp}</Source_Unique_Req_Id>
+  <Interface_Name>{$varServiceName}</Interface_Name>
+  <Operation_Name>{fn:data($inbound/ctx:service/ctx:operation)}</Operation_Name>
+  <Module_Name>{dvm:lookup('COMMON_UTIL_FRAMEWORK/Resources/DVM/commonRequestDetails.dvm','serviceName',$varServiceName,'moduleName','')}</Module_Name>
+  <Sector_Type>{dvm:lookup('COMMON_UTIL_FRAMEWORK/Resources/DVM/commonRequestDetails.dvm','serviceName',$varServiceName,'sectorType','')}</Sector_Type>
+  <Parent_Number>{$varParentNumber}</Parent_Number>
+  <Address_Number>{$varAddressNumber}</Address_Number>
+</KM_Service_Log>]]></con1:xqueryText>
+                        </con3:expr>
+                    </con3:assign>
+                    <con3:assign varName="varIntialRequest" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N7ab1</con1:id>
+                        <con3:expr>
+                            <con1:xqueryText>$body</con1:xqueryText>
+                        </con3:expr>
+                    </con3:assign>
+                    <con3:insert varName="varLogPayload" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N7ab0</con1:id>
+                        <con3:location>
+                            <con1:xpathText>./*:Module_Name</con1:xpathText>
+                        </con3:location>
+                        <con3:where>after</con3:where>
+                        <con3:expr>
+                            <con1:xqueryText>&lt;Request_Payload>{$varIntialRequest}&lt;/Request_Payload></con1:xqueryText>
+                        </con3:expr>
+                    </con3:insert>
+                </con:actions>
+            </con:stage>
+            <con:stage name="Stage_Validation" errorHandler="error-N53e1980e.N271b888c.0.16eb10d1665.N7aad">
+                <con:context xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config"/>
+                <con:actions/>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline name="error-N53e1980e.N271b888c.0.16eb10d1665.N7aad" type="error">
+            <con:stage name="Stage_Validation_ErrorHandler">
+                <con:context xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                    <con1:userNsDecl prefix="com" namespace="http://www.km.qa/CommonUtilFrameWork"/>
+                    <con2:variable name="KM_Service_Log" path="$KM_Service_Log" asChild="false">
+                        <con2:schema ref="COMMON_UTIL_FRAMEWORK/Resources/XSD/commonLoggingAndErrorHandler" element="KM_Service_Log"/>
+                    </con2:variable>
+                </con:context>
+                <con:actions>
+                    <con3:assign varName="varFault" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N7aaa</con1:id>
+                        <con3:expr>
+                            <con1:xqueryText>$fault</con1:xqueryText>
+                        </con3:expr>
+                    </con3:assign>
+                    <con3:insert varName="varLogPayload" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id>_ActionId-N53e19823.70966582.0.170a4b30d2c.N7f95</con1:id>
+                        <con3:location>
+                            <con1:xpathText>./*:Component_Type</con1:xpathText>
+                        </con3:location>
+                        <con3:where>after</con3:where>
+                        <con3:expr>
+                            <con1:xqueryText>&lt;Service_Hdr_Unique_Id>{fn:data(fn-bea:execute-sql('jdbc/KMLoggingDS',xs:QName('Element'),'select KM_SERVICE_HEADER_LOG_SEQ.nextval from dual'))}&lt;/Service_Hdr_Unique_Id></con1:xqueryText>
+                        </con3:expr>
+                    </con3:insert>
+                    <con5:route xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N7aa9</con1:id>
+                        <con5:service ref="COMMON_UTIL_FRAMEWORK/BusinessServices/EmailBusinessService" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con5:operation>EmailRequest</con5:operation>
+                        <con5:outboundTransform>
+                            <con2:routing-options xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con1="http://www.bea.com/wli/sb/stages/publish/config">
+                                <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N7aa8</con6:id>
+                                <con2:mode>request</con2:mode>
+                                <con2:qualityOfService>exactly-once</con2:qualityOfService>
+                                <con2:retryInterval>1</con2:retryInterval>
+                                <con2:retryCount>1</con2:retryCount>
+                                <con2:priority>
+                                    <con3:xqueryText xmlns:con3="http://www.bea.com/wli/sb/stages/config">1</con3:xqueryText>
+                                </con2:priority>
+                            </con2:routing-options>
+                            <con3:replace varName="body" contents-only="true">
+                                <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N7aa7</con1:id>
+                                <con3:location>
+                                    <con1:xpathText>.</con1:xpathText>
+                                </con3:location>
+                                <con3:expr>
+                                    <con1:xqueryText><![CDATA[<ema:EmailRequest xmlns:ema="http://www.km.qa/email">
+    <ema:Subject>{concat('OSB:Alert | Critical Failure in ',$varLogPayload//*:Interface_Name/text())}</ema:Subject>
+    <ema:From>{dvm:lookup('COMMON_UTIL_FRAMEWORK/Resources/DVM/CommonEmailConfig.dvm','Application','From','Email','')}</ema:From>
+    <ema:To>{dvm:lookup('COMMON_UTIL_FRAMEWORK/Resources/DVM/CommonEmailConfig.dvm','Application',substring($varLogPayload//*:Interface_Name/text(),1,4),'Email','')}</ema:To>
+    <ema:Cc></ema:Cc>
+    <ema:Bcc></ema:Bcc>
+    <ema:SendEmailAsAttachment></ema:SendEmailAsAttachment>
+    <ema:Timestamp>{fn:current-dateTime()}</ema:Timestamp>
+    <ema:TrackingID>{$varLogPayload//*:Service_Hdr_Unique_Id/text()}</ema:TrackingID>
+    <ema:ModuleName>{$varLogPayload//*:Module_Name/text()}</ema:ModuleName>
+    <ema:SourceSystem>{$varLogPayload//*:Source_System/text()}</ema:SourceSystem>
+    <ema:TargetSystem>{$varLogPayload//*:Target_System/text()}</ema:TargetSystem>
+    <ema:ServiceName>{$varLogPayload//*:Interface_Name/text()}</ema:ServiceName>
+    <ema:Payload>{$varIntialRequest}</ema:Payload>
+    {
+      if($varFault//*:faultcode !='')then
+        <ema:FaultName>{$varFault//*:faultcode}</ema:FaultName>
+      else(<ema:FaultName>{$fault/ctx:errorCode/text()}</ema:FaultName>)
+    }
+    {
+      if($varFault//*:faultcode !='')then
+        <ema:FaultDesc>{fn:substring($varFault,1,1500)}</ema:FaultDesc>
+      else(<ema:FaultDesc>{$fault/*:reason/text()}</ema:FaultDesc>)
+    }
+    <ema:Status>Error</ema:Status>
+</ema:EmailRequest>]]></con1:xqueryText>
+                                </con3:expr>
+                            </con3:replace>
+                        </con5:outboundTransform>
+                    </con5:route>
+                    <con3:insert varName="varLogPayload" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N7aa6</con1:id>
+                        <con3:location>
+                            <con1:xpathText>./*:Request_Payload</con1:xpathText>
+                        </con3:location>
+                        <con3:where>after</con3:where>
+                        <con3:expr>
+                            <con1:xqueryText><![CDATA[<Response_Stage>
+    <Response_Payload></Response_Payload>
+    <Status>E</Status>
+    {
+      if($varFault//*:faultcode !='')then
+        <Error_Code>{$varFault//*:faultcode}</Error_Code>
+      else(<Error_Code>{$fault/ctx:errorCode/text()}</Error_Code>)
+    }
+    {
+      if($varFault//*:faultcode !='')then
+        <Error_Msg>{fn:substring($varFault,1,1500)}</Error_Msg>
+      else(<Error_Msg>{$fault/*:reason/text()}</Error_Msg>)
+    }
+    <End_DateTime>{fn:current-dateTime()}</End_DateTime>
+    <Total_Execution_Time></Total_Execution_Time>
+  </Response_Stage>]]></con1:xqueryText>
+                        </con3:expr>
+                    </con3:insert>
+                    <con5:route xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N7aa5</con1:id>
+                        <con5:service ref="COMMON_UTIL_FRAMEWORK/BusinessServices/LoggingQueueBS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con5:outboundTransform>
+                            <con3:routing-options>
+                                <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N7aa4</con1:id>
+                                <con3:uriExpr>
+                                    <con1:xqueryText>dvm:lookup('COMMON_UTIL_FRAMEWORK/Resources/DVM/CommonURLs.dvm','ServiceName','JMSLogging','URL','')</con1:xqueryText>
+                                </con3:uriExpr>
+                                <con3:mode>request</con3:mode>
+                                <con3:qualityOfService>exactly-once</con3:qualityOfService>
+                                <con3:retryInterval>1</con3:retryInterval>
+                                <con3:retryCount>1</con3:retryCount>
+                                <con3:priority>
+                                    <con1:xqueryText>1</con1:xqueryText>
+                                </con3:priority>
+                            </con3:routing-options>
+                            <con3:replace varName="body" contents-only="true">
+                                <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N7aa3</con1:id>
+                                <con3:location>
+                                    <con1:xpathText>.</con1:xpathText>
+                                </con3:location>
+                                <con3:expr>
+                                    <con1:xqueryText>$varLogPayload</con1:xqueryText>
+                                </con3:expr>
+                            </con3:replace>
+                        </con5:outboundTransform>
+                    </con5:route>
+                    <con3:ifThenElse xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N7aa2</con1:id>
+                        <con3:case id="_BranchId-N53e1980e.N271b888c.0.16eb10d1665.N7aa1">
+                            <con3:condition>
+                                <con1:xqueryText>substring($varLogPayload//*:Interface_Name/text(),1,5) = 'MOBEM'</con1:xqueryText>
+                            </con3:condition>
+                            <con3:actions>
+                                <con3:replace varName="body" contents-only="true">
+                                    <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N7a9f</con1:id>
+                                    <con3:location>
+                                        <con1:xpathText>.</con1:xpathText>
+                                    </con3:location>
+                                    <con3:expr>
+                                        <con1:xqueryText><![CDATA[<Response>
+  <Data></Data>
+  <ErrorCode>{dvm:lookup('COMMON_UTIL_FRAMEWORK/Resources/DVM/CommonEmpMobileErrorDesc.dvm','ID',$varMobErrorCode,'ERRORCODE','')}</ErrorCode>
+  <ENErrorMessage>{dvm:lookup('COMMON_UTIL_FRAMEWORK/Resources/DVM/CommonEmpMobileErrorDesc.dvm','ID',$varMobErrorCode,'ERROR_DESC_ENG','')}</ENErrorMessage>
+  <ARErrorMessage>{dvm:lookup('COMMON_UTIL_FRAMEWORK/Resources/DVM/CommonEmpMobileErrorDesc.dvm','ID',$varMobErrorCode,'ERROR_DESC_AR','')}</ARErrorMessage>
+  <ErrorMessageDetails>{$fault//*:eis-error-message/text()}</ErrorMessageDetails>
+  <MResponse></MResponse>
+</Response>]]></con1:xqueryText>
+                                    </con3:expr>
+                                </con3:replace>
+                                <con1:reply>
+                                    <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N7a9e</con1:id>
+                                </con1:reply>
+                            </con3:actions>
+                        </con3:case>
+                        <con3:case id="_BranchId-N53e1980e.N271b888c.0.16eb10d1665.N7a9d">
+                            <con3:condition>
+                                <con1:xqueryText>substring($varLogPayload//*:Interface_Name/text(),1,5) = 'MOBCS'</con1:xqueryText>
+                            </con3:condition>
+                            <con3:actions>
+                                <con3:replace varName="body" contents-only="true">
+                                    <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N7a9b</con1:id>
+                                    <con3:location>
+                                        <con1:xpathText>.</con1:xpathText>
+                                    </con3:location>
+                                    <con3:expr>
+                                        <con1:xqueryText><![CDATA[<Response>
+  <Data></Data>
+  <ErrorCode>{$varFault/ctx:errorCode}</ErrorCode>
+  <ENErrorMessage>{dvm:lookup('COMMON_UTIL_FRAMEWORK/Resources/DVM/CommonCustMobileErrorDesc.dvm','ID',$varMobErrorCode,'EnErrorMessage','')}</ENErrorMessage>
+  <ARErrorMessage>{dvm:lookup('COMMON_UTIL_FRAMEWORK/Resources/DVM/CommonCustMobileErrorDesc.dvm','ID',$varMobErrorCode,'ArErrorMessage','')}</ARErrorMessage>
+  <ErrorMessageDetails>{$fault//*:eis-error-message/text()}</ErrorMessageDetails>
+</Response>]]></con1:xqueryText>
+                                    </con3:expr>
+                                </con3:replace>
+                                <con1:reply>
+                                    <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N7a9a</con1:id>
+                                </con1:reply>
+                            </con3:actions>
+                        </con3:case>
+                        <con3:case id="_BranchId-N53e1980e.N271b888c.0.16eb10d1665.N7a99">
+                            <con3:condition>
+                                <con1:xqueryText>substring($varLogPayload//*:Interface_Name/text(),1,4) = 'BAHR'</con1:xqueryText>
+                            </con3:condition>
+                            <con3:actions>
+                                <con3:replace varName="body" contents-only="true">
+                                    <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N7a97</con1:id>
+                                    <con3:location>
+                                        <con1:xpathText>.</con1:xpathText>
+                                    </con3:location>
+                                    <con3:expr>
+                                        <con1:xqueryText>concat('{"Data":null,"ErrorCode":',dvm:lookup('COMMON_UTIL_FRAMEWORK/Resources/DVM/CommonEmpMobileErrorDesc.dvm','ID',$varUltErrorCode,'Error_Code',''),',"ARErrorMessage":"حدث خطأ عند تقديم الطلب\r\n","ENErrorMessage":"',dvm:lookup('COMMON_UTIL_FRAMEWORK/Resources/DVM/CommonEmpMobileErrorDesc.dvm','Id',$varUltErrorCode,'ERROR_DESC_ENG',''),'","ErrorMessageDetails":"',$fault/ctx:reason,'","MResponse":null}')</con1:xqueryText>
+                                    </con3:expr>
+                                </con3:replace>
+                                <con1:transport-headers xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+                                    <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N7a96</con6:id>
+                                    <con1:header-set>inbound-response</con1:header-set>
+                                    <con1:header value="expression" name="Content-Type">
+                                        <con2:xqueryText xmlns:con2="http://www.bea.com/wli/sb/stages/config">'application/json'</con2:xqueryText>
+                                    </con1:header>
+                                </con1:transport-headers>
+                                <con1:reply>
+                                    <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N7a95</con1:id>
+                                </con1:reply>
+                            </con3:actions>
+                        </con3:case>
+                        <con3:case id="_BranchId-N53e1980e.N271b888c.0.16eb10d1665.N7a94">
+                            <con3:condition>
+                                <con1:xqueryText>substring($varLogPayload//*:Interface_Name/text(),1,3) = 'ERP'</con1:xqueryText>
+                            </con3:condition>
+                            <con3:actions>
+                                <con3:replace varName="body" contents-only="true">
+                                    <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N7a92</con1:id>
+                                    <con3:location>
+                                        <con1:xpathText>.</con1:xpathText>
+                                    </con3:location>
+                                    <con3:expr>
+                                        <con1:xsltTransform>
+                                            <con1:resource ref="COMMON_UTIL_FRAMEWORK/Resources/Transformation/commonErrorHandlerRS"/>
+                                            <con1:input>$fault</con1:input>
+                                            <con1:param name="fault">
+                                                <con1:path>$fault</con1:path>
+                                            </con1:param>
+                                        </con1:xsltTransform>
+                                    </con3:expr>
+                                </con3:replace>
+                                <con1:reply>
+                                    <con1:id>_ActionId-N53e1980e.N271b888c.0.16eb10d1665.N7a91</con1:id>
+                                </con1:reply>
+                            </con3:actions>
+                        </con3:case>
+                        <con3:default/>
+                    </con3:ifThenElse>
+                    <con1:reply isError="true" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id>_ActionId-N53e19823.70966582.0.170a4b30d2c.N7f90</con1:id>
+                    </con1:reply>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:flow>
+            <con:pipeline-node name="Pipeline Pair Node1">
+                <con:request>request-N53e1980e.N271b888c.0.16eb10d1665.N7ab5</con:request>
+                <con:response>response-N53e1980e.N271b888c.0.16eb10d1665.N7a68</con:response>
+            </con:pipeline-node>
+            <con:route-node name="C2MRouteNode">
+                <con:context xmlns:con1="http://www.bea.com/wli/sb/stages/config">
+                    <con1:varNsDecl prefix="get" namespace="https://www.km.qa/soa/bcrm/legacy_getBillinfo/schema/getServiceConnectionReq"/>
+                </con:context>
+                <con:actions>
+                    <con1:route xmlns:con1="http://www.bea.com/wli/sb/stages/routing/config">
+                        <con2:id xmlns:con2="http://www.bea.com/wli/sb/stages/config">_ActionId-N3f57fef9.N595e18ca.0.18dd0d967a7.N7f41</con2:id>
+                        <con1:service ref="C2M0048_Payments_LegacybillInfo/BusinessServices/DRefernceLegacygetServiceConnectionBS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con1:operation>getServiceConnection</con1:operation>
+                        <con1:outboundTransform>
+                            <con2:ifThenElse xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config">
+                                <con3:id xmlns:con3="http://www.bea.com/wli/sb/stages/config">_ActionId-N3f57fef5.N3cfa3a92.0.198e01d9fe1.N7feb</con3:id>
+                                <con2:case id="_BranchId-N3f57fef5.N3cfa3a92.0.198e01d9fe1.N7fea">
+                                    <con2:condition>
+                                        <con3:xqueryText xmlns:con3="http://www.bea.com/wli/sb/stages/config">$body/get:LegacygetServiceConnectionRequest/get:customerNumber='0'</con3:xqueryText>
+                                    </con2:condition>
+                                    <con2:actions>
+                                        <con2:replace varName="body" contents-only="true">
+                                            <con3:id xmlns:con3="http://www.bea.com/wli/sb/stages/config">_ActionId-N3f57fef5.N3cfa3a92.0.198e01d9fe1.N7fdc</con3:id>
+                                            <con2:location>
+                                                <con3:xpathText xmlns:con3="http://www.bea.com/wli/sb/stages/config">./get:LegacygetServiceConnectionRequest/get:customerNumber</con3:xpathText>
+                                            </con2:location>
+                                            <con2:expr>
+                                                <con3:xqueryText xmlns:con3="http://www.bea.com/wli/sb/stages/config">''</con3:xqueryText>
+                                            </con2:expr>
+                                        </con2:replace>
+                                    </con2:actions>
+                                </con2:case>
+                                <con2:default/>
+                            </con2:ifThenElse>
+                            <con2:transport-headers copy-all="false" xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config">
+                                <con3:id xmlns:con3="http://www.bea.com/wli/sb/stages/config">_ActionId-N53ef6cd6.N615c64db.2.18f3892a543.N8000</con3:id>
+                                <con2:header-set>outbound-request</con2:header-set>
+                                <con2:header name="UName" value="expression">
+                                    <con3:xqueryText xmlns:con3="http://www.bea.com/wli/sb/stages/config">$inbound/ctx:security/ctx:transportClient/ctx:username/text()</con3:xqueryText>
+                                </con2:header>
+                            </con2:transport-headers>
+                        </con1:outboundTransform>
+                        <con1:responseTransform/>
+                    </con1:route>
+                </con:actions>
+            </con:route-node>
+        </con:flow>
+        <con:partner-links>
+            <con:partner-link>
+                <con:service ref="C2M0048_Payments_LegacybillInfo/BusinessServices/LegacygetServiceConnectionBS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+            </con:partner-link>
+        </con:partner-links>
+    </con:router>
+</con:pipelineEntry>
