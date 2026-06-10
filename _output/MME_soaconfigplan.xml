@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<SOAConfigPlan xmlns:jca="http://platform.integration.oracle/blocks/adapter/fw/metadata" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" xmlns:edl="http://schemas.oracle.com/events/edl" xmlns="http://schemas.oracle.com/soa/configplan">
+   <composite name="ProcessMMEAutoMoveIn">
+      <import>
+         <searchReplace>
+            <search/>
+            <replace/>
+         </searchReplace>
+      </import>
+      <service name="MASTER_LEASED_ISSUED_CONTRACT_DB">
+         <binding type="jca">
+            <property name="useRejectedMessageRecovery">
+               <replace>true</replace>
+            </property>
+            <property name="jca.retry.count">
+               <replace>2147483647</replace>
+            </property>
+            <property name="jca.retry.interval">
+               <replace>1</replace>
+            </property>
+            <property name="jca.retry.backoff">
+               <replace>2</replace>
+            </property>
+            <property name="jca.retry.maxInterval">
+               <replace>120</replace>
+            </property>
+         </binding>
+      </service>
+      <property name="compositeID">
+         <replace>622ad421-a7c8-4d85-bfa3-1b2c50543fb8</replace>
+      </property>
+      <property name="productVersion">
+         <replace>12.2.1.4.0.190828</replace>
+      </property>
+      <component name="ProcessMMEAutoMoveInBPELProcess">
+         <property name="bpel.config.transaction">
+            <replace>required</replace>
+         </property>
+         <property name="bpel.config.oneWayDeliveryPolicy">
+            <replace>sync</replace>
+         </property>
+      </component>
+      <reference name="EmailService">
+         <binding type="ws">
+            <attribute name="port">
+               <replace>urn:EmailService#wsdl.endpoint(EmailPort/EmailPortPort)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>oramds:/apps/COMMON_UTIL_FRAMEWORK/Resources/WSDL/EmailService.wsdl</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="JMSPublishKMTransactionLogs">
+         <binding type="jca"/>
+      </reference>
+      <reference name="MME_OWNER_DATA_DB_Reference">
+         <binding type="jca">
+            <property name="jca.retry.count">
+               <replace>4</replace>
+            </property>
+            <property name="jca.retry.interval">
+               <replace>1</replace>
+            </property>
+            <property name="jca.retry.backoff">
+               <replace>2</replace>
+            </property>
+            <property name="jca.retry.maxInterval">
+               <replace>120</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="MOI_ServiceSOAPReference">
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://tempuri.org/#wsdl.endpoint(MOIService/MOIServiceSoap)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>WSDLs/MOIService.wsdl</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://tempuri.org/#wsdl.endpoint(MOIService/MOIServiceSoap12)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>WSDLs/MOIService.wsdl</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="QueryService">
+         <binding type="rest">
+            <attribute name="location">
+               <replace>https://sitsoa-bcrm.km.qa/BCRM/QueryServices</replace>
+            </attribute>
+         </binding>
+      </reference>
+      <reference name="ManageCustomerMoveIn">
+         <binding type="rest">
+            <attribute name="location">
+               <replace>https://dc1c2msitapp1.kahramaa.corp:8504/ouaf/rest/apis/cm/system/moveInRequest/</replace>
+            </attribute>
+         </binding>
+      </reference>
+      <reference name="MASTER_LEASED_ISSUED_CONTRACT_DBReference">
+         <binding type="jca">
+            <property name="jca.retry.count">
+               <replace>4</replace>
+            </property>
+            <property name="jca.retry.interval">
+               <replace>1</replace>
+            </property>
+            <property name="jca.retry.backoff">
+               <replace>2</replace>
+            </property>
+            <property name="jca.retry.maxInterval">
+               <replace>120</replace>
+            </property>
+         </binding>
+      </reference>
+   </composite>
+   <wsdlAndSchema name="Adapters/JMSPublishKMTransactionLogs_jms.jca|Adapters/MASTER_LEASED_ISSUED_CONTRACT_DBReference_db.jca|Adapters/MASTER_LEASED_ISSUED_CONTRACT_DB_db.jca|Adapters/MASTER_LEASED_ISSUED_CONTRACT_ERROR_DBReference_db.jca|Adapters/MME_OWNER_DATA_DB_Reference_db.jca|Schemas/C2MManageCustomerMoveIn.xsd|Schemas/MASTER_LEASED_ISSUED_CONTRACT_DBReference_table.xsd|Schemas/MASTER_LEASED_ISSUED_CONTRACT_DB_table.xsd|Schemas/MASTER_LEASED_ISSUED_CONTRACT_ERROR_DBReference_table.xsd|Schemas/MME_OWNER_DATA_DB_Reference_table.xsd|Schemas/QueryService.xsd|Schemas/Temp.xsd|WSDLs/EmailService.wsdl|WSDLs/EmailServiceWrapper.wsdl|WSDLs/JMSPublishKMTransactionLogs.wsdl|WSDLs/ManageCustomerMoveIn.wsdl|WSDLs/MASTER_LEASED_ISSUED_CONTRACT_DB.wsdl|WSDLs/MASTER_LEASED_ISSUED_CONTRACT_DBReference.wsdl|WSDLs/MASTER_LEASED_ISSUED_CONTRACT_ERROR_DBReference.wsdl|WSDLs/MME_OWNER_DATA_DB_Reference.wsdl|WSDLs/MOIService.wsdl|WSDLs/MOIServiceWrapper.wsdl|WSDLs/QueryService.wsdl|WSDLs/RuntimeFault.wsdl|wsm-assembly.xml">
+      <searchReplace>
+         <search>http://hqgwi:90/GOVWS/MOIService.asmx</search>
+         <replace>https://soaqa.km.qa/SOAP/GetMoiInfo</replace>
+      </searchReplace>
+   </wsdlAndSchema>
+</SOAConfigPlan>
