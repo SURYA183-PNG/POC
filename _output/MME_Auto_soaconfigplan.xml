@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<SOAConfigPlan xmlns:jca="http://platform.integration.oracle/blocks/adapter/fw/metadata" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" xmlns:edl="http://schemas.oracle.com/events/edl" xmlns="http://schemas.oracle.com/soa/configplan">
+   <composite name="C2M_MME_InitiateMMEBasedAutoMoveIn">
+      <import>
+         <searchReplace>
+            <search/>
+            <replace/>
+         </searchReplace>
+      </import>
+      <service name="C2M_MME_InitiateMMEBasedAutoMoveIn">
+         <binding type="ws">
+            <attribute name="port">
+               <replace>https://www.km.qa/soa/bcrm/C2M_MME_InitiateMMEBasedAutoMoveIn/wsdl/C2M_MME_InitiateMMEBasedAutoMoveIn/v1#wsdl.endpoint(C2M_MME_InitiateMMEBasedAutoMoveIn/C2M_MME_InitiateMMEBasedAutoMoveIn_pt)</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>NEVER</replace>
+            </property>
+         </binding>
+      </service>
+      <property name="auditLevel">
+         <replace>Development</replace>
+      </property>
+      <property name="compositeID">
+         <replace>1973a6da-8991-4467-890d-e77e9714d5e9</replace>
+      </property>
+      <property name="productVersion">
+         <replace>12.2.1.4.0.190828</replace>
+      </property>
+      <component name="Process_Controller_BPEL_Main">
+         <property name="bpel.config.oneWayDeliveryPolicy">
+            <replace>async.persist</replace>
+         </property>
+      </component>
+      <component name="C2M_MME_InitiateMMEBasedAutoMoveInBPELProcess">
+         <property name="bpel.config.oneWayDeliveryPolicy">
+            <replace>async.persist</replace>
+         </property>
+      </component>
+      <reference name="SCHEDULED_PROCESS_DATE_TIME_TABLE">
+         <binding type="jca">
+            <property name="jca.retry.backoff">
+               <replace>2</replace>
+            </property>
+            <property name="jca.retry.count">
+               <replace>4</replace>
+            </property>
+            <property name="jca.retry.maxInterval">
+               <replace>120</replace>
+            </property>
+            <property name="jca.retry.interval">
+               <replace>1</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="MASTER_LEASED_ISSUED_CONTRACT">
+         <binding type="jca">
+            <property name="jca.retry.backoff">
+               <replace>2</replace>
+            </property>
+            <property name="jca.retry.count">
+               <replace>4</replace>
+            </property>
+            <property name="jca.retry.maxInterval">
+               <replace>120</replace>
+            </property>
+            <property name="jca.retry.interval">
+               <replace>1</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="GetAttestedLeasedContractDataByIssueDtReference">
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.oracle.com/LeaseContractIntegrationApp/MMELeasedContractCertQueryPrj/GetAttestedLeasedContractDataByIssueDt#wsdl.endpoint(getattestedleasedcontractdatabyissuedt_ep/GetAttestedLeasedContractDataByIssueDt_pt)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>https://integrationqa.km.qa/SOAP/MMELeasedContractDataByIssueDtPS?wsdl</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="MASTER_LEASED_ISSUED_CONTRACT_ERROR">
+         <binding type="jca">
+            <property name="jca.retry.backoff">
+               <replace>2</replace>
+            </property>
+            <property name="jca.retry.count">
+               <replace>4</replace>
+            </property>
+            <property name="jca.retry.maxInterval">
+               <replace>120</replace>
+            </property>
+            <property name="jca.retry.interval">
+               <replace>1</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="DuplicateDataCheckProceduredbReference">
+         <binding type="jca">
+            <property name="jca.retry.backoff">
+               <replace>2</replace>
+            </property>
+            <property name="jca.retry.count">
+               <replace>4</replace>
+            </property>
+            <property name="jca.retry.maxInterval">
+               <replace>120</replace>
+            </property>
+            <property name="jca.retry.interval">
+               <replace>1</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="EmailService">
+         <binding type="ws">
+            <attribute name="port">
+               <replace>urn:EmailService#wsdl.endpoint(EmailPort/EmailPortPort)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>oramds:/apps/COMMON_UTIL_FRAMEWORK/Resources/WSDL/EmailService.wsdl</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="JMSPublishKMTransactionLogs">
+         <binding type="jca"/>
+      </reference>
+      <reference name="MME_OWNERS_DATA">
+         <binding type="jca">
+            <property name="jca.retry.backoff">
+               <replace>2</replace>
+            </property>
+            <property name="jca.retry.count">
+               <replace>4</replace>
+            </property>
+            <property name="jca.retry.maxInterval">
+               <replace>120</replace>
+            </property>
+            <property name="jca.retry.interval">
+               <replace>1</replace>
+            </property>
+         </binding>
+      </reference>
+   </composite>
+   <wsdlAndSchema name="Adapters/DuplicateDataCheckProceduredbReference_db.jca|Adapters/JMSPublishKMTransactionLogs_jms.jca|Adapters/MASTER_LEASED_ISSUED_CONTRACT_db.jca|Adapters/MASTER_LEASED_ISSUED_CONTRACT_ERROR_db.jca|Adapters/MME_OWNERS_DATA_db.jca|Adapters/SCHEDULED_PROCESS_DATE_TIME_TABLE_db.jca|Schemas/DuplicateDataCheckProceduredbReference_sp.xsd|Schemas/MASTER_LEASED_ISSUED_CONTRACT_ERROR_table.xsd|Schemas/MASTER_LEASED_ISSUED_CONTRACT_table.xsd|Schemas/MMELeasedContractDataByIssueDt.xsd|Schemas/MMELeasedContractGropuing.xsd|Schemas/MME_OWNERS_DATA_table.xsd|Schemas/SCHEDULED_PROCESS_DATE_TIME_TABLE_table.xsd|Schemas/SOAMMEAutoMoveIn.xsd|WSDLs/C2M_MME_InitiateMMEBasedAutoMoveIn.wsdl|WSDLs/C2M_MME_InitiateMMEBasedAutoMoveInWrapper.wsdl|WSDLs/C2M_MME_InitiateMMEBasedAutoMoveInWrapper1.wsdl|WSDLs/C2M_MME_InitiateMMEBasedAutoMoveInWrapper2.wsdl|WSDLs/DuplicateDataCheckProceduredbReference.wsdl|WSDLs/EmailService.wsdl|WSDLs/EmailServiceWrapper.wsdl|WSDLs/GetAttestedLeasedContractDataByIssueDt.wsdl|WSDLs/JMSPublishKMTransactionLogs.wsdl|WSDLs/MASTER_LEASED_ISSUED_CONTRACT.wsdl|WSDLs/MASTER_LEASED_ISSUED_CONTRACT_ERROR.wsdl|WSDLs/MME_OWNERS_DATA.wsdl|WSDLs/RuntimeFault.wsdl|WSDLs/SCHEDULED_PROCESS_DATE_TIME_TABLE.wsdl|wsm-assembly.xml">
+      <searchReplace>
+         <search>http://localhost:localhost/MMELeasedContractCertQuerySBPrj/ProxyService/MMELeasedContractDataByIssueDtPS</search>
+         <replace>https://integrationqa.km.qa/SOAP/MMELeasedContractDataByIssueDtPS</replace>
+      </searchReplace>
+   </wsdlAndSchema>
+</SOAConfigPlan>
