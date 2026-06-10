@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configjarSettings xmlns="http://www.bea.com/alsb/tools/configjar/config">
+  <source>
+    <project dir="/tmp/pulse_build_7906140271877885344/workspace/_output/C2M0048_Payments_LegacybillInfo_configjar_src/workspace"/>
+  </source>
+  <configjar jar="/tmp/pulse_build_7906140271877885344/workspace/_output/C2M0048_Payments_LegacybillInfo.sbar">
+    <projectLevel includeSystem="false">
+      <project>C2M0048_Payments_LegacybillInfo</project>
+    </projectLevel>
+  </configjar>
+</configjarSettings>
